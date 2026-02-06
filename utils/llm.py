@@ -1,3 +1,3 @@
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 
-llm = Ollama(model="llama3:8b", temperature=0.7)
+llm = OllamaLLM(model="llama3:8b", temperature=0.7)

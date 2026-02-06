@@ -1,0 +1,16 @@
+order_id,customer_name,order_date,amount,product,quantity,region,is_shipped
+1,John Doe,2024-01-15,150.50,Laptop,1,North,yes
+2,Jane Smith,2024-01-16,45.99,Mouse,2,South,yes
+3,,2024-01-17,299.99,Monitor,1,East,no
+4,Bob Johnson,2024-01-18,89.50,Keyboard,3,West,yes
+5,Alice Brown,,125.75,Headphones,1,North,yes
+6,John Doe,2024-01-15,150.50,Laptop,1,North,yes
+7,Charlie Wilson,2024-01-20,199.99,Webcam,2,,no
+8,Diana Prince,2024-01-21,79.99,Cable,5,South,yes
+9,Eve Anderson,2024-01-22,5000.00,Server,1,East,yes
+10,,2024-01-23,35.50,USB Drive,10,West,
+11,Frank Miller,2024-01-24,175.00,Router,1,North,yes
+12,Grace Lee,invalid-date,99.99,Switch,1,South,no
+13,Henry Ford,2024-01-26,250.00,Printer,1,East,yes
+14,Ivy Chen,,125.50,Scanner,1,West,yes
+15,Jane Smith,2024-01-16,45.99,Mouse,2,South,yes
