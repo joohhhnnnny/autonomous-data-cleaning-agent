@@ -26,6 +26,19 @@ _EMBED_MODEL = "nomic-embed-text"
 _vectorstore: Optional[Chroma] = None
 
 
+def _get_ollama_base_url() -> str | None:
+    # Keep consistent with utils/llm.py
+    import os
+
+    return os.getenv("OLLAMA_BASE_URL") or os.getenv("OLLAMA_HOST") or None
+
+
+def _get_embed_model() -> str:
+    import os
+
+    return os.getenv("OLLAMA_EMBED_MODEL", _EMBED_MODEL)
+
+
 def _truncate(text: str, max_chars: int) -> str:
     if max_chars <= 0:
         return ""
@@ -99,7 +112,12 @@ def build_or_load_vectorstore(force_reindex: bool = False) -> Optional[Chroma]:
     if not md_files:
         return None
 
-    embeddings = OllamaEmbeddings(model=_EMBED_MODEL)
+    embed_kwargs: dict = {"model": _get_embed_model()}
+    base_url = _get_ollama_base_url()
+    if base_url:
+        embed_kwargs["base_url"] = base_url
+
+    embeddings = OllamaEmbeddings(**embed_kwargs)
 
     chroma_sqlite = _CHROMA_DIR / "chroma.sqlite3"
     if chroma_sqlite.exists() and not force_reindex:

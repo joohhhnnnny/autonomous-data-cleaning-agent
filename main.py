@@ -3,8 +3,20 @@ import sys
 
 from core.controller import clean_dataset
 
+
+def _get_dataset_path() -> str:
+    """Resolve dataset path from argv/env, then fall back to interactive prompt."""
+    if len(sys.argv) >= 2 and sys.argv[1].strip():
+        return sys.argv[1].strip()
+
+    env_path = os.getenv("DATASET_PATH")
+    if env_path and env_path.strip():
+        return env_path.strip()
+
+    return input("\nEnter path to dataset (CSV or XLSX): ").strip()
+
 if __name__ == "__main__":
-    file_path = input("\nEnter path to dataset (CSV or XLSX): ").strip()
+    file_path = _get_dataset_path()
     
     if not os.path.exists(file_path):
         print(f"Error: File '{file_path}' not found.")

@@ -157,6 +157,53 @@ Enable debug mode to see RAG retrieval details:
 RAG_DEBUG=1 python main.py
 ```
 
+## Docker Deployment
+
+This project is a CLI app (it prints results to stdout). The easiest Docker setup is via Docker Compose: one container runs Ollama, and one runs this app.
+
+### Deploy with Docker Compose (recommended)
+
+1. Build and run:
+   ```bash
+   docker compose up --build
+   ```
+
+2. (One-time) download Ollama models inside the Ollama container:
+   ```bash
+   docker compose exec ollama ollama pull llama3:8b
+   docker compose exec ollama ollama pull nomic-embed-text
+   ```
+
+3. Re-run the app (non-interactive):
+   ```bash
+   docker compose run --rm \
+     -e DATASET_PATH=/data/sample_data.csv \
+     app python main.py
+   ```
+
+Notes:
+- The app reads `DATASET_PATH` or `python main.py /path/to/file.csv` to avoid interactive prompting.
+- RAG data is persisted by mounting `./memory` into the container (`memory/chroma` stores the Chroma DB).
+
+### Deploy with Docker only (use external Ollama)
+
+Build:
+```bash
+docker build -t data-cleaning-agent .
+```
+
+Run (example):
+```bash
+docker run --rm \
+  -e OLLAMA_BASE_URL="http://host.docker.internal:11434" \
+  -e OLLAMA_MODEL="llama3:8b" \
+  -e OLLAMA_EMBED_MODEL="nomic-embed-text" \
+  -e DATASET_PATH="/data/sample_data.csv" \
+  -v "$PWD/sample_data.csv:/data/sample_data.csv:ro" \
+  -v "$PWD/memory:/app/memory" \
+  data-cleaning-agent
+```
+
 ## Supported Data Formats
 
 - **CSV** (`.csv`) - All encodings supported (UTF-8, Latin-1, etc.)

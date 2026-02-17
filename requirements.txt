@@ -28,3 +28,8 @@ chardet>=5.2.0
 click>=8.1.6
 colorama>=0.4.6
 requests>=2.31.0
+
+# UI
+streamlit>=1.30.0
+markdown>=3.5.0
+pyarrow>=14.0.0

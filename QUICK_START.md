@@ -54,6 +54,43 @@ Enter the path to your CSV or XLSX file:
 /path/to/your/dataset.csv
 ```
 
+---
+
+## 🐳 Docker Quick Start
+
+If you prefer not to install Python dependencies locally, you can run everything with Docker.
+
+### Option 1: Docker Compose (app + Ollama)
+
+```bash
+docker compose up --build
+```
+
+One-time model download:
+```bash
+docker compose exec ollama ollama pull llama3:8b
+docker compose exec ollama ollama pull nomic-embed-text
+```
+
+Run the app against the included sample dataset:
+```bash
+docker compose run --rm \
+   -e DATASET_PATH=/data/sample_data.csv \
+   app python main.py
+```
+
+### Option 2: Docker only (connect to external Ollama)
+
+```bash
+docker build -t data-cleaning-agent .
+docker run --rm \
+   -e OLLAMA_BASE_URL="http://host.docker.internal:11434" \
+   -e DATASET_PATH="/data/sample_data.csv" \
+   -v "$PWD/sample_data.csv:/data/sample_data.csv:ro" \
+   -v "$PWD/memory:/app/memory" \
+   data-cleaning-agent
+```
+
 ## 📊 What to Expect
 
 The agent will provide:

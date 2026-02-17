@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.env
+env/
+venv/
+ENV/
+
+.git/
+.vscode/
+*.code-workspace
+
+# Keep the knowledge base markdown in the image, but avoid persisting local vector DB.
+memory/chroma/
+
+# Optional large/derived artifacts
+*.log
+.DS_Store
+Thumbs.db

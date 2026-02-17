@@ -16,15 +16,25 @@ def read_dataset(file_path: str) -> pd.DataFrame:
         pandas DataFrame containing the dataset
     """
     file_path = Path(file_path)
-    
-    if file_path.suffix.lower() == '.csv':
+    suffix = file_path.suffix.lower()
+
+    if suffix == '.csv':
         # Try different encodings for CSV
         try:
             df = pd.read_csv(file_path)
         except UnicodeDecodeError:
             df = pd.read_csv(file_path, encoding='latin-1')
-    elif file_path.suffix.lower() in ['.xlsx', '.xls']:
+    elif suffix == '.tsv':
+        try:
+            df = pd.read_csv(file_path, sep='\t')
+        except UnicodeDecodeError:
+            df = pd.read_csv(file_path, sep='\t', encoding='latin-1')
+    elif suffix in ['.xlsx', '.xls']:
         df = pd.read_excel(file_path)
+    elif suffix == '.parquet':
+        df = pd.read_parquet(file_path)
+    elif suffix == '.json':
+        df = pd.read_json(file_path)
     else:
         raise ValueError(f"Unsupported file format: {file_path.suffix}")
     

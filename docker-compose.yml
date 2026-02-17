@@ -1,0 +1,32 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+
+  app:
+    build: .
+    depends_on:
+      - ollama
+    environment:
+      # Used by utils/llm.py and utils/rag.py
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3:8b
+      OLLAMA_EMBED_MODEL: nomic-embed-text
+
+      # Run non-interactively (main.py reads this)
+      DATASET_PATH: /data/sample_data.csv
+
+      # Optional
+      # RAG_DEBUG: "1"
+    volumes:
+      # Example dataset mount
+      - ./sample_data.csv:/data/sample_data.csv:ro
+
+      # Persist RAG knowledge base + Chroma index across runs
+      - ./memory:/app/memory
+
+volumes:
+  ollama_models:
