@@ -158,8 +158,16 @@ def retrieve_strategy_context(dataset_query: str, k: int = 5, max_chars: int = 3
     """
     Retrieves relevant data cleaning strategies from the knowledge base.
     Query should describe the dataset characteristics and issues.
+
+    Returns an empty string when the vector store is unavailable (e.g. no
+    Ollama on Streamlit Cloud) so the pipeline still completes successfully.
     """
-    vs = _get_vectorstore()
+    try:
+        vs = _get_vectorstore()
+    except Exception:
+        # Embeddings provider unavailable (e.g. Ollama not running)
+        return ""
+
     if vs is None:
         return ""
 
@@ -169,11 +177,15 @@ def retrieve_strategy_context(dataset_query: str, k: int = 5, max_chars: int = 3
         f"DATASET CONTEXT:\n{dataset_query}"
     )
 
-    # Prefer diverse snippets if available.
     try:
-        results = vs.max_marginal_relevance_search(query, k=k, fetch_k=max(12, k * 3))
+        # Prefer diverse snippets if available.
+        try:
+            results = vs.max_marginal_relevance_search(query, k=k, fetch_k=max(12, k * 3))
+        except Exception:
+            results = vs.similarity_search(query, k=k)
     except Exception:
-        results = vs.similarity_search(query, k=k)
+        # Connection to embedding provider failed during query
+        return ""
 
     lines: List[str] = []
     for d in results:

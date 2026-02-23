@@ -121,7 +121,7 @@ def render_sidebar() -> bool:
 
         st.markdown(
             "<div style='text-align:center; font-size:0.72rem; color:#6B7280; padding-top:0.5rem;'>"
-            "Powered by Ollama &middot; LangChain<br>chromadb &middot; Streamlit"
+            "Powered by Groq &middot; LangChain<br>chromadb &middot; Streamlit"
             "</div>",
             unsafe_allow_html=True,
         )
