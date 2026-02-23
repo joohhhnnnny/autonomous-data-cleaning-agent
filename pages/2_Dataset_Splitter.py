@@ -14,7 +14,7 @@ from utils.splitter import split_dataset
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Dataset Splitter",
-    page_icon="✂️",
+    page_icon=":material/content_cut:",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -68,7 +68,7 @@ st.divider()
 # ---------------------------------------------------------------------------
 # Run
 # ---------------------------------------------------------------------------
-if st.button("🚀 Split Dataset", type="primary"):
+if st.button("Split Dataset", icon=":material/rocket_launch:", type="primary"):
     if test_ratio < 0:
         st.error("Ratios exceed 100 %. Adjust Train and Validation sliders.")
     elif not input_dir or not Path(input_dir).exists():
@@ -76,7 +76,7 @@ if st.button("🚀 Split Dataset", type="primary"):
     else:
         with st.spinner("Splitting dataset …"):
             split_dataset(input_dir, output_dir, train_ratio, val_ratio, test_ratio)
-        st.success("Dataset split successfully! ✅")
+        st.success("Dataset split successfully!", icon=":material/check_circle:")
 
         # Show output summary
         out_path = Path(output_dir)

@@ -74,7 +74,7 @@ def render_sidebar() -> bool:
     with st.sidebar:
         st.markdown(
             '<div class="sidebar-brand">'
-            "<h2>🧹 Data Cleaning Agent</h2>"
+            "<h2>Data Cleaning Agent</h2>"
             "<p>Autonomous analysis &amp; recommendations</p>"
             "</div>",
             unsafe_allow_html=True,

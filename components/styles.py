@@ -45,6 +45,52 @@ def inject_custom_css():
             overflow-y: auto;
         }
 
+        /* ---- dynamic quality-aware variable highlighting ---- */
+
+        /* Red — problems / anomalies detected */
+        .quality-bad code,
+        .quality-bad strong {
+            color: #F87171;
+        }
+        .quality-bad code {
+            background-color: rgba(248, 113, 113, 0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+        }
+
+        /* Green — data quality is good */
+        .quality-good code,
+        .quality-good strong {
+            color: #4ADE80;
+        }
+        .quality-good code {
+            background-color: rgba(74, 222, 128, 0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+        }
+
+        /* Amber — action items / recommendations */
+        .quality-warn code,
+        .quality-warn strong {
+            color: #FBBF24;
+        }
+        .quality-warn code {
+            background-color: rgba(251, 191, 36, 0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+        }
+
+        /* Neutral — informational / overview */
+        .quality-neutral code {
+            color: #93C5FD;
+            background-color: rgba(147, 197, 253, 0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+        }
+        .quality-neutral strong {
+            color: inherit;
+        }
+
         /* ---- status badge ---- */
         .status-badge {
             display: inline-block;
@@ -58,6 +104,12 @@ def inject_custom_css():
         .badge-running { background: #1E3A5F; color: #60A5FA; }
         .badge-done    { background: #14532D; color: #4ADE80; }
         .badge-error   { background: #7F1D1D; color: #FCA5A5; }
+
+        /* ---- download buttons (equal width) ---- */
+        [data-testid="stDownloadButton"] button {
+            width: 100%;
+            justify-content: center;
+        }
 
         /* ---- section dividers ---- */
         .section-divider {

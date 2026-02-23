@@ -20,7 +20,7 @@ from components.readers import (
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Dataset Reader",
-    page_icon="📂",
+    page_icon=":material/folder_open:",
     layout="wide",
     initial_sidebar_state="expanded",
 )

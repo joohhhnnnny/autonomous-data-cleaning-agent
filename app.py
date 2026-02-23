@@ -24,7 +24,7 @@ from components.results_display import render_results
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Data Cleaning Agent",
-    page_icon="🧹",
+    page_icon=":material/mop:",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -57,7 +57,7 @@ show_rag_debug = render_sidebar()
 # ---------------------------------------------------------------------------
 col_title, col_badge = st.columns([5, 1])
 with col_title:
-    st.markdown("## 🧹 Autonomous Data Cleaning Agent")
+    st.markdown("## Autonomous Data Cleaning Agent")
 with col_badge:
     st.markdown(
         f"<div style='text-align:right; padding-top:0.6rem;'>{status_badge(st.session_state.status)}</div>",
@@ -74,7 +74,7 @@ if st.session_state.df is None:
     if st.session_state.status == "error":
         st.error(f"**Failed to read file:** {st.session_state.error_msg}")
     else:
-        st.info("👈  Upload a dataset from the sidebar to get started.", icon="📂")
+        st.info("Upload a dataset from the sidebar to get started.", icon=":material/folder_open:")
     st.stop()
 
 # ---------------------------------------------------------------------------
@@ -105,8 +105,11 @@ def _run_pipeline():
 col_btn, col_info = st.columns([1, 4])
 with col_btn:
     run_disabled = st.session_state.status == "running"
+    _btn_label = "Run Analysis" if st.session_state.status != "done" else "Re-run Analysis"
+    _btn_icon = ":material/rocket_launch:" if st.session_state.status != "done" else ":material/refresh:"
     if st.button(
-        "🚀  Run Analysis" if st.session_state.status != "done" else "🔄  Re-run Analysis",
+        _btn_label,
+        icon=_btn_icon,
         type="primary",
         width="stretch",
         disabled=run_disabled,
@@ -117,11 +120,11 @@ with col_btn:
 
 with col_info:
     if st.session_state.status == "running":
-        st.info("Pipeline is running… please wait.", icon="⏳")
+        st.info("Pipeline is running… please wait.", icon=":material/hourglass_top:")
     elif st.session_state.status == "error" and st.session_state.error_msg:
         st.error(f"**Pipeline error:** {st.session_state.error_msg}")
     elif st.session_state.status == "done":
-        st.success(f"Analysis completed in **{st.session_state.elapsed:.1f}s**", icon="✅")
+        st.success(f"Analysis completed in **{st.session_state.elapsed:.1f}s**", icon=":material/check_circle:")
 
 if st.session_state.result is None:
     st.stop()
@@ -132,5 +135,6 @@ if st.session_state.result is None:
 render_results(
     st.session_state.result,
     uploaded_file_name=st.session_state.uploaded_file.name,
+    df=st.session_state.df,
     show_rag_debug=show_rag_debug,
 )

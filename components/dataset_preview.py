@@ -14,7 +14,7 @@ from components.ui_helpers import divider
 def render_dataset_preview(df: pd.DataFrame) -> None:
     """Render the full dataset-preview section for *df*."""
 
-    st.markdown("### 📊 Dataset Preview")
+    st.markdown("### Dataset Preview")
 
     # ---- metric cards ----
     c1, c2, c3, c4, c5 = st.columns(5)
@@ -50,7 +50,7 @@ def render_dataset_preview(df: pd.DataFrame) -> None:
         missing = df.isnull().sum()
         missing = missing[missing > 0].sort_values(ascending=False)
         if missing.empty:
-            st.success("No missing values detected! ✅")
+            st.success("No missing values detected!", icon=":material/check_circle:")
         else:
             miss_df = pd.DataFrame(
                 {
